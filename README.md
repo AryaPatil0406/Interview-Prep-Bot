@@ -16,10 +16,12 @@ A web application to help users practice technical and behavioral interview ques
 - HTML/CSS/JS frontend
 - PostgreSQL database
 
-## Setup Instructions
 
-1. Clone the repo:
-   ```bash
-   git clone https://github.com/AryaPatil0406/interview-prep-bot.git
-   cd interview-prep-bot
+## Database Setup Reminder
+- Ensure your README.md tells users to create the PostgreSQL database and set up the necessary environment variables or update app.py.
+
+## Create a virtual environment and activate it:
+ ```bash
+   python -m venv venv
+   source venv/bin/activate  # or venv\Scripts\activate on Windows
 
