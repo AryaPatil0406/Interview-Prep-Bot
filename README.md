@@ -22,4 +22,4 @@ A web application to help users practice technical and behavioral interview ques
    ```bash
    git clone https://github.com/AryaPatil0406/interview-prep-bot.git
    cd interview-prep-bot
-## Website userinterface
+
