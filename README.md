@@ -17,5 +17,5 @@ A web application to help users practice technical and behavioral interview ques
 
 1. Clone the repo:
    ```bash
-   git clone https://github.com/your-username/interview-prep-bot.git
+   git clone https://github.com/AryaPatil0406/interview-prep-bot.git
    cd interview-prep-bot
