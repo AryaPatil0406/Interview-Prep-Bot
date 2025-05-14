@@ -1,0 +1,244 @@
+<!-- templates/index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interview Prep Bot</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
+</head>
+<body>
+    <div class="app-container">
+        <header>
+            <div class="logo">
+                <i class="fas fa-robot"></i>
+                <h1>Interview Prep Bot</h1>
+            </div>
+            <nav id="nav-links">
+                <div id="logged-out-nav">
+                    <button id="login-btn" class="btn">Login</button>
+                    <button id="register-btn" class="btn primary">Register</button>
+                </div>
+                <div id="logged-in-nav" style="display: none;">
+                    <span id="welcome-user"></span>
+                    <button id="history-btn" class="btn">My History</button>
+                    <button id="logout-btn" class="btn">Logout</button>
+                </div>
+            </nav>
+        </header>
+
+        <main>
+            <div id="home-section" class="section active">
+                <div class="hero">
+                    <h2>Prepare for Your Next Interview</h2>
+                    <p>Practice with our AI-powered interview prep bot to improve your skills and confidence.</p>
+                    <button id="start-practice-btn" class="btn primary large">Start Practicing</button>
+                </div>
+                <div class="features">
+                    <div class="feature-card">
+                        <i class="fas fa-laptop-code"></i>
+                        <h3>Technical Interviews</h3>
+                        <p>Software Engineering, Data Science, System Design questions to test your knowledge.</p>
+                    </div>
+                    <div class="feature-card">
+                        <i class="fas fa-user-tie"></i>
+                        <h3>Behavioral Questions</h3>
+                        <p>Practice common behavioral questions that assess your soft skills and experience.</p>
+                    </div>
+                    <div class="feature-card">
+                        <i class="fas fa-chart-line"></i>
+                        <h3>Track Progress</h3>
+                        <p>Monitor your performance and see improvement over time with detailed feedback.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div id="auth-section" class="section">
+                <div class="auth-container">
+                    <div id="login-form" class="auth-form">
+                        <h2>Login</h2>
+                        <form id="login-form-element">
+                            <div class="form-group">
+                                <label for="login-username">Username</label>
+                                <input type="text" id="login-username" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="login-password">Password</label>
+                                <input type="password" id="login-password" required>
+                            </div>
+                            <div class="error-message" id="login-error"></div>
+                            <button type="submit" class="btn primary full-width">Login</button>
+                        </form>
+                        <p class="form-switch">Don't have an account? <a href="#" id="switch-to-register">Register</a></p>
+                    </div>
+                    
+                    <div id="register-form" class="auth-form" style="display: none;">
+                        <h2>Register</h2>
+                        <form id="register-form-element">
+                            <div class="form-group">
+                                <label for="register-username">Username</label>
+                                <input type="text" id="register-username" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="register-email">Email</label>
+                                <input type="email" id="register-email" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="register-password">Password</label>
+                                <input type="password" id="register-password" required>
+                            </div>
+                            <div class="error-message" id="register-error"></div>
+                            <button type="submit" class="btn primary full-width">Register</button>
+                        </form>
+                        <p class="form-switch">Already have an account? <a href="#" id="switch-to-login">Login</a></p>
+                    </div>
+                </div>
+            </div>
+
+            <div id="setup-section" class="section">
+                <h2>Setup Your Interview Session</h2>
+                <div class="setup-container">
+                    <form id="setup-form">
+                        <div class="form-group">
+                            <label for="category-select">Interview Category</label>
+                            <select id="category-select" required>
+                                <option value="">Select a category</option>
+                                <!-- Categories will be loaded via JavaScript -->
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="difficulty-select">Difficulty Level</label>
+                            <select id="difficulty-select">
+                                <option value="">All Levels</option>
+                                <option value="easy">Easy</option>
+                                <option value="medium">Medium</option>
+                                <option value="hard">Hard</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="question-count">Number of Questions</label>
+                            <input type="number" id="question-count" min="1" max="10" value="5">
+                        </div>
+                        <button type="submit" class="btn primary full-width">Start Interview</button>
+                    </form>
+                </div>
+            </div>
+
+            <div id="interview-section" class="section">
+                <div class="interview-container">
+                    <div class="interview-header">
+                        <h2 id="interview-title">Interview In Progress</h2>
+                        <div class="interview-progress">
+                            <span id="question-progress">Question 1 of 5</span>
+                        </div>
+                    </div>
+                    
+                    <div class="question-card">
+                        <h3 id="current-question">Loading question...</h3>
+                        <div class="question-meta">
+                            <span id="question-category">Category: </span>
+                            <span id="question-difficulty">Difficulty: </span>
+                        </div>
+                        <div class="answer-area">
+                            <textarea id="user-answer" placeholder="Type your answer here..." rows="6"></textarea>
+                            <button id="submit-answer-btn" class="btn primary">Submit Answer</button>
+                        </div>
+                    </div>
+                    
+                    <div id="answer-feedback" class="feedback-card" style="display: none;">
+                        <div class="feedback-header">
+                            <h3>Feedback</h3>
+                            <div class="rating" id="answer-rating">
+                                <!-- Stars will be added via JavaScript -->
+                            </div>
+                        </div>
+                        <p id="feedback-text"></p>
+                        <div class="sample-answer">
+                            <h4>Sample Answer</h4>
+                            <p id="sample-answer-text"></p>
+                        </div>
+                        <button id="next-question-btn" class="btn primary">Next Question</button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="results-section" class="section">
+                <div class="results-container">
+                    <div class="results-header">
+                        <h2>Interview Results</h2>
+                        <div class="overall-score">
+                            <div class="score-circle">
+                                <span id="final-score">0</span>
+                                <span class="score-label">out of 5</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="results-summary">
+                        <h3>Summary</h3>
+                        <div id="results-feedback"></div>
+                    </div>
+                    
+                    <div class="question-review">
+                        <h3>Question Review</h3>
+                        <div id="question-list">
+                            <!-- Questions and answers will be added via JavaScript -->
+                        </div>
+                    </div>
+                    
+                    <div class="action-buttons">
+                        <button id="try-again-btn" class="btn">Try Another Interview</button>
+                        <button id="back-home-btn" class="btn primary">Back to Home</button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="history-section" class="section">
+                <div class="history-container">
+                    <h2>My Interview History</h2>
+                    <div class="history-list" id="history-list">
+                        <!-- History items will be added via JavaScript -->
+                        <p id="no-history-message" style="display: none;">You haven't completed any interviews yet.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div id="session-details-section" class="section">
+                <div class="session-details-container">
+                    <div class="session-header">
+                        <h2 id="session-title">Interview Session</h2>
+                        <div class="session-meta">
+                            <span id="session-date"></span>
+                            <span id="session-category"></span>
+                        </div>
+                        <div class="session-score">
+                            <div class="score-circle small">
+                                <span id="session-score">0</span>
+                                <span class="score-label small">out of 5</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="question-review">
+                        <h3>Question Review</h3>
+                        <div id="session-question-list">
+                            <!-- Questions and answers will be added via JavaScript -->
+                        </div>
+                    </div>
+                    
+                    <div class="action-buttons">
+                        <button id="back-to-history-btn" class="btn">Back to History</button>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <footer>
+            <p>&copy; 2025 Interview Prep Bot. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+</body>
+</html>
