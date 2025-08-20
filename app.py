@@ -22,14 +22,8 @@ DB_PASS = os.environ.get('DB_PASS', 'aryu')
 DB_PORT = os.environ.get('DB_PORT', '5432')
 
 def get_db_connection():
-    conn = psycopg2.connect(
-        host=DB_HOST,
-        dbname=DB_NAME,
-        user=DB_USER,
-        password=DB_PASS,
-        port=DB_PORT
-    )
-    conn.autocommit = True
+    db_url = os.getenv("DATABASE_URL")  # Render provides this
+    conn = psycopg2.connect(db_url, sslmode="require")
     return conn
 
 # Create tables if they don't exist
@@ -512,4 +506,5 @@ def get_session_details(session_id):
 
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5000))
+
     app.run(host='0.0.0.0', port=port, debug=True)
